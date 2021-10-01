@@ -1,15 +1,29 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { io } from 'socket.io-client'
 import 'bootstrap/dist/css/bootstrap.min.css'
 import { Col, Row, Container } from 'react-bootstrap'
 import Messages from './components/Messages'
 import AddNewMsg from './components/AddNewMsg'
 import './App.css';
 
+const socket = io.connect('http://localhost:5000') // I need to put it in context/global veriable
+
+
 function App() {
+
   const [tweets, setTweets] = useState([
-    { name: "lala", data: "papa" },
-    { name: "nana", data: "rara" }
+    // { name: "lala", data: "papa" },
+    // { name: "nana", data: "rara" }
   ])
+
+  useEffect(() => {
+    socket.on('message', ([data]) => {
+      console.log(data);
+      setTweets(prev => [...prev, data])
+    })
+  }, [])
+
+
 
   const addTweet = (msg) => {
     setTweets(prev => ([...prev, msg]))
@@ -27,7 +41,7 @@ function App() {
 
         <Row className="p-3">
           <Col md={5}>
-            <Messages msgs={tweets} />
+            <Messages msgs={tweets} socket={socket} />
           </Col>
         </Row>
       </Container>
@@ -37,7 +51,7 @@ function App() {
       <Container id="add-msg">
         <Row className="p-3">
           <Col>
-            <AddNewMsg updateList={addTweet} />
+            <AddNewMsg updateList={addTweet} socket={socket} />
           </Col>
         </Row>
       </Container>

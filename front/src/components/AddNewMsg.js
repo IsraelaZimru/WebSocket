@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { Form, Button } from 'react-bootstrap'
 
 
-const AddNewMsg = ({ updateList }) => {
+const AddNewMsg = ({ updateList, socket }) => {
     const [details, setDetails] = useState({
         name: "",
         data: ""
@@ -14,8 +14,12 @@ const AddNewMsg = ({ updateList }) => {
 
     const submitHandler = (e) => {
         e.preventDefault()
-        updateList(details)
-        setDetails(prev => ({ ...prev, ["data"]: "" }))
+
+        //add and send function through socket!
+        socket.emit('message', details)
+
+        //emty the input field
+        setDetails(prev => ({ ...prev, "data": "" }))
 
     }
 
