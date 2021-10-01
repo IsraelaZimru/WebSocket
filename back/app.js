@@ -2,11 +2,21 @@ var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
+const mongoose = require('mongoose')
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 
 var app = express();
+
+
+
+mongoose.connect('mongodb+srv://IsraelaZimru:2DFOudU8lkOZ4uC9@fullstackprojects.epp4t.mongodb.net/websocket',
+    { useNewUrlParser: true, useUnifiedTopology: true })
+    .then((result) => console.log('connected to db'))
+    .catch(err => console.log(err));
+
+
 
 app.use(logger('dev'));
 app.use(express.json());
