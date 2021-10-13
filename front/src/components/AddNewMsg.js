@@ -15,7 +15,7 @@ const AddNewMsg = ({ updateList, socket }) => {
     const submitHandler = (e) => {
         e.preventDefault()
 
-        //add and send function through socket!
+        //add and send function/data through socket!
         socket.emit('message', details)
 
         //emty the input field

@@ -1,19 +1,18 @@
-import { useState, useEffect } from 'react';
-import { io } from 'socket.io-client'
+import { useState, useEffect, useContext } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css'
 import { Col, Row, Container } from 'react-bootstrap'
 import Messages from './components/Messages'
 import AddNewMsg from './components/AddNewMsg'
+import socketContext from './Context/socket-context'
 import './App.css';
+import PrecticeRedux from './components/PrecticeRedux';
 
-const socket = io.connect('http://localhost:5000') // I need to put it in context/global veriable
 
 
 function App() {
+  const { socket } = useContext(socketContext) //destructoring the context obj
 
   const [tweets, setTweets] = useState([
-    // { name: "lala", data: "papa" },
-    // { name: "nana", data: "rara" }
   ])
 
   useEffect(() => {
@@ -57,6 +56,10 @@ function App() {
       </Container>
     </section>
 
+
+    <section>
+      <PrecticeRedux />
+    </section>
   </div>;
 }
 
